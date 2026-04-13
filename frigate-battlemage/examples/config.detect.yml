@@ -1,0 +1,106 @@
+mqtt:
+  enabled: true
+  host: 000.000.000.000
+  port: 1883
+  topic_prefix: frigate
+  user: your_mqtt_user
+  password: "your_mqtt_password"
+
+audio:
+  enabled: false
+
+detectors:
+  onnx:
+    type: onnx
+    device: GPU
+
+model:
+  path: plus://YOUR_FRIGATE_PLUS_MODEL_ID
+
+ffmpeg:
+  hwaccel_args: preset-intel-qsv-h264
+  output_args:
+    record: preset-record-generic
+
+detect:
+  enabled: true
+  fps: 5
+  min_initialized: 2
+  max_disappeared: 25
+  stationary:
+    interval: 50
+    threshold: 50
+    max_frames:
+      default: 3000
+      objects:
+        person: 1000
+        package: 1000
+
+objects:
+  track:
+    - person
+    - package
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      min_ratio: 0.5
+      max_ratio: 2.0
+      min_score: 0.6
+      threshold: 0.8
+    package:
+      min_area: 800
+      max_area: 50000
+      min_ratio: 0.3
+      max_ratio: 3.0
+      min_score: 0.5
+      threshold: 0.7
+
+review:
+  alerts:
+    labels: [person, package]
+  detections:
+    labels: [person, package]
+
+record:
+  enabled: true
+  expire_interval: 60
+  sync_recordings: false
+  continuous:
+    days: 7
+  alerts:
+    retain:
+      days: 3
+  detections:
+    retain:
+      days: 3
+  motion:
+    days: 0
+
+snapshots:
+  enabled: false
+
+cameras:
+  driveway:
+    ffmpeg:
+      inputs:
+        - path: rtsp://user:password@000.000.000.000:554/Preview_01_main
+          input_args: -rtsp_transport tcp -fflags +genpts+discardcorrupt -avoid_negative_ts make_zero -flags low_delay
+          roles:
+            - record
+            - detect
+    detect:
+      enabled: true
+      fps: 5
+      width: 3840
+      height: 2160
+    objects:
+      track:
+        - person
+    review:
+      alerts:
+        labels: [person]
+      detections:
+        labels: [person]
+
+version: 0.17-0
