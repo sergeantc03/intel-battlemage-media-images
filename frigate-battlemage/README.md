@@ -1,11 +1,10 @@
+# Frigate Battlemage
 
-## Frigate-specific README
+A Battlemage-friendly Frigate image based on `ghcr.io/blakeblackshear/frigate:0.17.1`, using a Jellyfin FFmpeg userspace/runtime stack to improve Intel Arc / Battlemage compatibility.
 
-Inside `frigate-battlemage/README.md`, I’d put:
+This image is a **runtime/container variant** of Frigate. It is **not a fork of Frigate application code**.
 
-- image name
-- what changed vs stock
-- example `docker run`
-- example `docker-compose`
-- known-good QSV config examples
-- note that direct RTSP was more stable than go2rtc/restreaming on your setup
+## Image
+
+```text
+sergeantc03/frigate-battlemage:latest
