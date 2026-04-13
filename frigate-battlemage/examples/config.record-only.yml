@@ -1,0 +1,44 @@
+mqtt:
+  enabled: true
+  host: 192.168.1.10
+  port: 1883
+  topic_prefix: frigate
+  user: your_mqtt_user
+  password: "your_mqtt_password"
+
+audio:
+  enabled: false
+
+ffmpeg:
+  hwaccel_args: preset-intel-qsv-h264
+  output_args:
+    record: preset-record-generic
+
+record:
+  enabled: true
+  expire_interval: 60
+  sync_recordings: false
+  continuous:
+    days: 7
+  alerts:
+    retain:
+      days: 0
+  detections:
+    retain:
+      days: 0
+  motion:
+    days: 0
+
+snapshots:
+  enabled: false
+
+cameras:
+  front_door:
+    ffmpeg:
+      inputs:
+        - path: rtsp://user:password@000.000.000.000:554/Preview_01_main
+          input_args: -rtsp_transport tcp -fflags +genpts+discardcorrupt -avoid_negative_ts make_zero -flags low_delay
+          roles:
+            - record
+
+version: 0.17-0
