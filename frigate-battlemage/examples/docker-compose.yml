@@ -1,0 +1,20 @@
+services:
+  frigate-battlemage:
+    image: sergeantc03/frigate-battlemage:latest
+    container_name: frigate-battlemage
+    restart: unless-stopped
+    privileged: true
+    shm_size: "2gb"
+    devices:
+      - /dev/dri:/dev/dri
+    ports:
+      - "5000:5000"
+      - "8554:8554"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    volumes:
+      - /path/to/config:/config
+      - /path/to/media:/media/frigate
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      TZ: America/Chicago
